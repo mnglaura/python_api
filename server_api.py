@@ -1,7 +1,8 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import database_conn
 import api
-import cgi
+import cgi, cgitb
+from flask import request
 
 class Serv(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -26,10 +27,11 @@ class Serv(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        
+
         form = cgi.FieldStorage()
         first_name= form.getvalue('fname')
-        last_name= form.getvalue('fname')
+        last_name= form.getvalue('lname')
+        print("this is first name" + first_name)
         api.post_user_function(first_name, last_name)
 
 

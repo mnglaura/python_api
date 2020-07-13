@@ -9,7 +9,7 @@ def create_connection(db_file):
         conn = sqlite3.connect(db_file)
         return conn
     except Error as e:
-        print(e)    
+        print(e + "tring to create database")    
     return conn
 
 
@@ -18,14 +18,14 @@ def create_table(conn, create_table_sql):
         c = conn.cursor()
         c.execute(create_table_sql)
     except Error as e:
-        print(e)
+        print(e + "trying to create table")
     
 def create_database():       
     database = "database.db"
     sql_create_users_table = """ CREATE TABLE IF NOT EXISTS users (
                                         
                                             first_name text NOT NULL,
-                                            last_name text NOT NULL,
+                                            last_name text NOT NULL
                                             
                                         ); """
 
