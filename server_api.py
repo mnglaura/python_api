@@ -4,14 +4,23 @@ import api
 import cgi, cgitb
 from flask import request
 
+
 class Serv(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/welcome':
             self.path = '/welcome.html'
         elif self.path =='/get_user.html?get_user=get':
             self.path = '/get_user.html'
-        else:
+        elif self.path =='/post_user.html?create_user=create':
             self.path ='/post_user.html'
+        else:
+            url = self.path
+            data = url.split('?')
+            name = data[1].split('=')[1]
+            print(name)
+            self.send_response(200)
+            api.get_user(name)
+            self.path = '/success.html'
 
         try: 
             database_conn.create_database()
@@ -24,14 +33,6 @@ class Serv(BaseHTTPRequestHandler):
         self.wfile.write(bytes(file_to_open, 'utf-8'))
 
     def do_POST(self):
-        # self.send_response(200)
-        # self.send_header('Content-type', 'text/html')
-        # self.end_headers()
-
-        # form = cgi.FieldStorage()
-        # first_name= form.getvalue('fname')
-        # last_name= form.getvalue('lname')
-        # print("this is first name" + first_name)
 
         #get content length and use to retrieve post data
         content_length = int(self.headers['Content-Length'])
@@ -44,6 +45,7 @@ class Serv(BaseHTTPRequestHandler):
         first_name = post_vars[0].split('=')[1]
         last_name = post_vars[1].split('=')[1]
         api.post_user_function(first_name, last_name)
+        
 
 httpd = HTTPServer(('localhost', 8080), Serv)
 httpd.serve_forever()
