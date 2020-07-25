@@ -19,8 +19,7 @@ class Serv(BaseHTTPRequestHandler):
             name = data[1].split('=')[1]
             print(name)
             self.send_response(200)
-            api.get_user(name)
-            self.path = '/success.html'
+            self.path = api.get_user(name)
 
         try: 
             database_conn.create_database()

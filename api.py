@@ -43,6 +43,6 @@ def get_user(first_name):
         f.close()
 
 
-
+    return '/success.html'
 
 
