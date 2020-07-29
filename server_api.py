@@ -1,9 +1,10 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import database_conn
+from user_data import get_names
+from tests import execute_mut, execute_query
 import api
-import cgi, cgitb
-from flask import request
 
+data = ""
 
 class Serv(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -35,15 +36,15 @@ class Serv(BaseHTTPRequestHandler):
 
         #get content length and use to retrieve post data
         content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
-        # print(post_data)
-        #post_data is bytes string, convert it to python string using decode
-        post_data = post_data.decode('utf-8')
+        data = self.rfile.read(content_length)
+        get_names()
+        execute_mut()
         #post_data is now fname=xxxxx&lname=xxxx, extract two vars from this string
-        post_vars = post_data.split('&')
-        first_name = post_vars[0].split('=')[1]
-        last_name = post_vars[1].split('=')[1]
-        api.post_user_function(first_name, last_name)
+        # post_vars = post_data.split('&')
+        # first_name = post_vars[0].split('=')[1]
+        # last_name = post_vars[1].split('=')[1]
+
+        
         
 
 httpd = HTTPServer(('localhost', 8080), Serv)
