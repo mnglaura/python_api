@@ -1,6 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import database_conn
-from user_data import get_names
 from tests import execute_mut, execute_query
 import api
 
@@ -37,12 +36,12 @@ class Serv(BaseHTTPRequestHandler):
         #get content length and use to retrieve post data
         content_length = int(self.headers['Content-Length'])
         data = self.rfile.read(content_length)
-        get_names()
-        execute_mut()
+        post_data = data.decode('utf-8')
         #post_data is now fname=xxxxx&lname=xxxx, extract two vars from this string
-        # post_vars = post_data.split('&')
-        # first_name = post_vars[0].split('=')[1]
-        # last_name = post_vars[1].split('=')[1]
+        post_vars = post_data.split('&')
+        first_name = post_vars[0].split('=')[1]
+        last_name = post_vars[1].split('=')[1]
+        execute_mut(first_name, last_name)
 
         
         
