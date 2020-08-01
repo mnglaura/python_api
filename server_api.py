@@ -1,7 +1,8 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import database_conn
-from tests import execute_mut, execute_query
+from graph_ql import execute_mut, execute_query
 import api
+from orm import get_data_query
 
 data = ""
 
@@ -41,7 +42,9 @@ class Serv(BaseHTTPRequestHandler):
         post_vars = post_data.split('&')
         first_name = post_vars[0].split('=')[1]
         last_name = post_vars[1].split('=')[1]
-        execute_mut(first_name, last_name)
+        query_result = execute_mut(first_name, last_name)
+        list_names = get_data_query(query_result)
+        api.post_user_function(list_names[0], list_names[1])
 
         
         
