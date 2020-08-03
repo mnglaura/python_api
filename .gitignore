@@ -48,3 +48,8 @@ coverage.xml
 *.pot
 
 # Sphinx documen
+
+
+#api related files
+*.db
+success.html
