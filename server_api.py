@@ -3,27 +3,16 @@ import database_conn
 from graph_ql import execute_mut, execute_query
 import api
 from orm import get_data_query
+from urls import get_request_mapper
 
 data = ""
 
 class Serv(BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/welcome':
-            self.path = '/welcome.html'
-        elif self.path =='/get_user.html?get_user=get':
-            self.path = '/get_user.html'
-        elif self.path =='/post_user.html?create_user=create':
-            self.path ='/post_user.html'
-        else:
-            url = self.path
-            data = url.split('?')
-            name = data[1].split('=')[1]
-            print(name)
-            self.send_response(200)
-            self.path = api.get_user(name)
-
+        database_conn.create_database()
+        print('self path:'+self.path)
+        self.path = get_request_mapper(self.path)
         try: 
-            database_conn.create_database()
             file_to_open = open(self.path[1:]).read()
             self.send_response(200)
         except:
