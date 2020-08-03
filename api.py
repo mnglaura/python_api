@@ -23,7 +23,7 @@ def post_user_function(first_name, last_name):
 def get_user(first_name):
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    f = open('success.html', 'w')
+    f = open('templates/success.html', 'w')
 
     try:
         c.execute("SELECT * FROM users WHERE first_name=?", (first_name,))
@@ -43,6 +43,6 @@ def get_user(first_name):
         f.close()
 
 
-    return '/success.html'
+    return '/success'
 
 
